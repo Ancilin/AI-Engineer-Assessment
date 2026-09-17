@@ -149,8 +149,11 @@ def get_dataset_summary():
     FROM tickets
     """
     res = execute_query(sql)
-    if not res["success"] or not res["rows"]:
-        raise HTTPException(status_code=500, detail="Failed to fetch dataset summary.")
+    if not res["success"] or not res.get("rows"):
+        ingest_csv_to_sqlite()
+        res = execute_query(sql)
+        if not res["success"] or not res.get("rows"):
+            raise HTTPException(status_code=500, detail="Failed to fetch dataset summary.")
     
     summary = res["rows"][0]
     
