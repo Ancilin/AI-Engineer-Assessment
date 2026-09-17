@@ -7,7 +7,7 @@ import streamlit as st
 # Add root project directory to sys.path so modules import seamlessly
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.db import execute_query, DEFAULT_DB_PATH
+from src.db import execute_query, ensure_db_initialized, DEFAULT_DB_PATH
 from src.query_engine import QueryEngine
 from src.anomalies import AnomalyDetector
 from src.alerts import AlertSimulator
@@ -119,10 +119,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Ensure database exists
-if not os.path.exists(DEFAULT_DB_PATH):
-    with st.spinner("Initializing SQLite Database from CSV..."):
-        ingest_csv_to_sqlite()
+# Ensure database exists and is populated
+ensure_db_initialized()
 
 # Sidebar Navigation
 st.sidebar.image("https://img.icons8.com/color/96/artificial-intelligence.png", width=64)
