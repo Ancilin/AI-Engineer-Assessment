@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches & Test Results
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Local Environment Variables
+.env
+
+# Database files (Auto-generated on startup by ingest.py)
+tickets.db
+*.db-journal
+
+# IDEs & System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
