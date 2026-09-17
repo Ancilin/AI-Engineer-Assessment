@@ -2,9 +2,9 @@ import os
 import csv
 import sqlite3
 from typing import Optional, Tuple
-from src.db import DEFAULT_DB_PATH, get_db_connection
 
 DEFAULT_CSV_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "support_tickets.csv")
+DEFAULT_DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tickets.db")
 
 def parse_float(val: Optional[str]) -> Optional[float]:
     """Parse string to float or return None if empty/invalid."""
@@ -33,7 +33,7 @@ def ingest_csv_to_sqlite(csv_path: str = DEFAULT_CSV_PATH, db_path: str = DEFAUL
     if not os.path.exists(csv_path):
         raise FileNotFoundError(f"CSV file not found at {csv_path}")
 
-    conn = get_db_connection(db_path)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     # Drop existing table to ensure clean slate on re-ingest
