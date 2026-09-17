@@ -54,3 +54,14 @@ def execute_query(sql: str, db_path: str = DEFAULT_DB_PATH) -> Dict[str, Any]:
     finally:
         if conn:
             conn.close()
+
+def ensure_db_initialized(db_path: str = DEFAULT_DB_PATH):
+    """Guarantees SQLite database exists and contains populated tickets table."""
+    from src.ingest import ingest_csv_to_sqlite
+    try:
+        res = execute_query("SELECT COUNT(*) as count FROM tickets", db_path)
+        if not res["success"] or not res["rows"] or res["rows"][0]["count"] == 0:
+            ingest_csv_to_sqlite(db_path=db_path)
+    except Exception:
+        ingest_csv_to_sqlite(db_path=db_path)
+

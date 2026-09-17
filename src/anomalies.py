@@ -1,13 +1,14 @@
 import os
 import math
 from typing import Dict, Any, List, Optional
-from src.db import execute_query, DEFAULT_DB_PATH
+from src.db import execute_query, ensure_db_initialized, DEFAULT_DB_PATH
 
 class AnomalyDetector:
     """Detects statistical outliers, SLA breaches, and anomalous patterns in support tickets."""
 
     def __init__(self, db_path: str = DEFAULT_DB_PATH):
         self.db_path = db_path
+        ensure_db_initialized(self.db_path)
 
     def run_all_checks(self) -> Dict[str, Any]:
         """Runs all anomaly detection checks and returns consolidated diagnostic report."""

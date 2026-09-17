@@ -1,7 +1,7 @@
 import os
 import logging
 from typing import Dict, Any, List
-from src.db import execute_query, DEFAULT_DB_PATH
+from src.db import execute_query, ensure_db_initialized, DEFAULT_DB_PATH
 from src.llm_provider import LLMProvider
 
 logger = logging.getLogger(__name__)
@@ -11,6 +11,7 @@ class QueryEngine:
 
     def __init__(self, db_path: str = DEFAULT_DB_PATH):
         self.db_path = db_path
+        ensure_db_initialized(self.db_path)
         self.llm_provider = LLMProvider()
 
     def process_query(self, user_question: str) -> Dict[str, Any]:
